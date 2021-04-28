@@ -1,7 +1,7 @@
 {
   "name": "tinypng-com-cli",
   "version": "1.0.9",
-  "description": "指令化在tinypng上传下载图片,设置压缩次数",
+  "description": "Инструкция по загрузке и скачиванию картинок в tinypng и установке количества сжатий",
   "bin": {
     "tinyimg": "bin/tinyimg"
   },
@@ -10,18 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HandsomeBrother/tiny-img-cli.git"
+    "url": "git+https://github.com/dmmelnik/tiny-img-cli.git"
   },
   "keywords": [
-    "图片压缩",
-    "自动压缩图片"
+    "Сжатие изображения",
+    "Автоматически сжимать картинки"
   ],
   "author": "yaoshuai",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HandsomeBrother/tiny-img-cli/issues"
+    "url": "https://github.com/dmmelnik/tiny-img-cli/issues"
   },
-  "homepage": "https://github.com/HandsomeBrother/tiny-img-cli#readme",
+  "homepage": "https://github.com/dmmelnik/tiny-img-cli#readme",
   "dependencies": {
     "chalk": "^4.1.0",
     "commander": "^7.0.0",

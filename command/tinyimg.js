@@ -22,16 +22,16 @@ class TinyImg {
     }
 
     /**
-     * @description 过滤待处理文件夹，得到待处理文件列表
-     * @param {*} folder 待处理文件夹
-     * @param {string} imgEntryPath 待处理文件列表
+     * @description Отфильтруйте ожидающие файлы, чтобы получить список ожидающих файлов
+     * @param {*} folder Ожидающая папка
+     * @param {string} imgEntryPath Список ожидающих файлов
      * @return {*} void
      */
     compress(imgEntryPath = this.conf.imgEntryPath) {
         try {
             const filePath = path.join(imgEntryPath);
             if (!fs.existsSync(filePath)) {
-                return global.tinyimg.log.error(chalk.red('目录或者文件不存在！'));
+                return global.tinyimg.log.error(chalk.red('Каталог или файл не существует！'));
             }
 
             const stats = fs.statSync(filePath);
@@ -39,12 +39,12 @@ class TinyImg {
                 this.handleImgFile(stats.isFile(), stats.size, filePath);
             }
             else {
-                // 读取文件夹
+                // Прочитать папку
                 fs.readdirSync(filePath).forEach(file => {
                     const fullFilePath = path.join(filePath, file);
-                    const fileStat = fs.statSync(fullFilePath); // 读取文件信息
+                    const fileStat = fs.statSync(fullFilePath); // Прочитать информацию о файле
                     this.handleImgFile(fileStat.isFile(), fileStat.size, fullFilePath);
-                    // 是否深度递归处理文件夹
+                    // Следует ли обрабатывать папки глубоко рекурсивно
                     if (this.conf.isDeep && fileStat.isDirectory()) {
                         this.compress(fullFilePath);
                     }
@@ -62,7 +62,7 @@ class TinyImg {
         }
     }
 
-    // 过滤文件安全性/大小限制/后缀名
+    // Фильтр безопасности файла / ограничение размера / суффикс
     isTinyImgFile(isFile, fileSize, file) {
         return isFile
             && conf.exts.includes(path.extname(file))
@@ -70,9 +70,9 @@ class TinyImg {
     }
 
     /**
-     * 请求体
+     * Тело запроса
      * @param {*}
-     * @returns {object} 请求体
+     * @returns {object} Тело запроса
      */
     buildRequestParams() {
         return {
@@ -91,7 +91,7 @@ class TinyImg {
     }
 
     /**
-     * @description 生成随机xff头
+     * @description Создать случайный заголовок xff
      * @return {string} xff header
      */
     getRandomIP() {
@@ -107,7 +107,7 @@ class TinyImg {
             res.on('data', buffer => {
                 const postInfo = JSON.parse(buffer.toString());
                 if (postInfo.error) {
-                    global.tinyimg.log.error(chalk.red(`压缩失败！\n 当前文件：${imgPath} \n ${postInfo.message}`));
+                    global.tinyimg.log.error(chalk.red(`Сжатие не удалось！\n Текущий файл：${imgPath} \n ${postInfo.message}`));
                 }
                 else {
                     this.fileUpdate(imgPath, postInfo);
@@ -115,7 +115,7 @@ class TinyImg {
             });
         });
         req.write(fs.readFileSync(imgPath), 'binary');
-        req.on('error', e => global.tinyimg.log.error(chalk.red(`请求错误! \n 当前文件：${imgPath} \n, e)`)));
+        req.on('error', e => global.tinyimg.log.error(chalk.red(`Ошибка запроса! \n Текущий файл：${imgPath} \n, e)`)));
         req.end();
     }
 
@@ -133,15 +133,15 @@ class TinyImg {
                     let log = '';
                     if (conf.files[entryImgPath] <= this.conf.compressCount) {
                         global.tinyimg.log.info(chalk.green
-                            .bold(`${entryImgPath}：已压缩${conf.files[entryImgPath]}次`));
+                            .bold(`${entryImgPath}：Сжатый${conf.files[entryImgPath]}次`));
                         this.fileUpload(entryImgPath);
                     }
                     else {
-                        log = '压缩成功:\n';
-                        log += `       -优化比例: ${((1 - info.output.ratio) * 100).toFixed(2)}%\n`;
-                        log += `       -原始大小: ${(info.input.size / 1024).toFixed(2)}KB\n`;
-                        log += `       -压缩大小: ${(info.output.size / 1024).toFixed(2)}KB\n`;
-                        log += `       -文件：${entryImgPath}`;
+                        log = 'Сжат успешно:\n';
+                        log += `       -Коэффициент оптимизации: ${((1 - info.output.ratio) * 100).toFixed(2)}%\n`;
+                        log += `       -Оригинальный размер: ${(info.input.size / 1024).toFixed(2)}KB\n`;
+                        log += `       -Сжатый размер: ${(info.output.size / 1024).toFixed(2)}KB\n`;
+                        log += `       -файл：${entryImgPath}`;
                         global.tinyimg.log.info(chalk.green.bold(log));
                     }
                 });

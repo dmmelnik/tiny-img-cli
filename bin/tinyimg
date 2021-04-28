@@ -36,7 +36,8 @@ class App {
         });
         commander.parse(process.argv);
     }
-};
+}
+
 cli.launch({
     cwd: argv.r || argv.root
 }, function (env) {
