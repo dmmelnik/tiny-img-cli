@@ -133,7 +133,7 @@ class TinyImg {
                     let log = '';
                     if (conf.files[entryImgPath] <= this.conf.compressCount) {
                         global.tinyimg.log.info(chalk.green
-                            .bold(`${entryImgPath}：Сжатый${conf.files[entryImgPath]}次`));
+                            .bold(`${entryImgPath}：Сжатый ${conf.files[entryImgPath]} Раз`));
                         this.fileUpload(entryImgPath);
                     }
                     else {
